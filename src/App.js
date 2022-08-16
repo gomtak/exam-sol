@@ -18,6 +18,13 @@ const option = {
   ]
 }
 
+const getBalance = (address) => {
+  return caver.rpc.klay.getBalance(address).then((response) => {
+    const balance = caver.utils.convertFromPeb(caver.utils.hexToNumberString(response));
+    console.log(`Balance: ${balance}`)
+    return balance;
+  })
+}
 const caver = new Caver(new Caver.providers.HttpProvider("https://node-api.klaytnapi.com/v1/klaytn", option));
 const CountContract = new caver.contract(COUNT_ABI, COUNT_CONTRACT_ADDRESS);
 const readCount = async () => {
@@ -30,6 +37,7 @@ const readCount = async () => {
 
 function App() {
   readCount();
+  getBalance('0x5C22b984cB7D5bFbece85185ad02037f164C9c93');
   return (
     <div className="App">
       <header className="App-header">
